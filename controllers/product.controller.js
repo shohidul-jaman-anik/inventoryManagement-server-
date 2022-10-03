@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
-const Product = require('../model/Product')
-const { getProductService, addProductService } = require('../services/product.services')
+const { getProductService, addProductService, updateProductService } = require('../services/product.services')
 
 module.exports.getProducts = async (req, res, next) => {
     try {
@@ -54,3 +53,21 @@ module.exports.addProduct = async (req, res, next) => {
     }
 }
 
+exports.updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await updateProductService(id, req.body)
+        res.status(200).json({
+            status: "Success",
+            message: "Data Update Successfully",
+            data: result
+        })
+    } catch (error) {
+        res.status(400).json({
+            status: "Fail",
+            message: "Data couldn't Update Successfully",
+            error: error.message
+        })
+        console.log(error, 'error')
+    }
+}
