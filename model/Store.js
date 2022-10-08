@@ -27,7 +27,7 @@ const storeSchema = mongoose.Schema({
             type: ObjectId,
             ref: "User"
         }
-    }
+    },
 }, {
     tymestamps: true
 })

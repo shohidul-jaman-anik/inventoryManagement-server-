@@ -3,7 +3,11 @@ const { ObjectId } = mongoose.Schema.Types;
 
 
 // Schema Design
-const productSchema = mongoose.Schema({
+const stockSchema = mongoose.Schema({
+    productId: {
+        type: ObjectId,
+        ref: "Product"
+    },
     name: {
         type: String,
         required: [true, "Please provide a name for this product"],
@@ -46,6 +50,24 @@ const productSchema = mongoose.Schema({
             message: "Please provide a valid message"
         }
     }],
+    price: {
+        type: Number,
+        required: true,
+        min: [0, "Product price can't be negative"]
+    },
+    quantity: {
+        type: Number,
+        required: true,
+        min: [0, "Product quantity can't be negative"]
+    },
+    status: {
+        type: String,
+        required: true,
+        enum: {
+            values: ["in-stock", "out-of-stock", "discontinuted"],
+            message: "Status can't be {VALUE}"
+        }
+    },
     category: {
         type: String,
         required: true,
@@ -57,54 +79,39 @@ const productSchema = mongoose.Schema({
         },
         id: {
             type: ObjectId,
-            ref:"Brand",
-            required:true,
+            ref: "Brand",
+            required: true,
+        }
+    },
+    store: {
+        name: {
+            type: String,
+            required: [true, "Please provide a brand name"],
+            trim: true,
+            lowercase: true,
+            emum: {
+                values: ['dhaka', 'rajshahi', 'khulna', 'barishal', 'faridpur', 'nowakhali', 'sylhet',],
+                message: "{VALUE} is not a valid name"
+            }
+        },
+        id: {
+            type: ObjectId,
+            required: true,
+            ref: "Store"
+        }
+    },
+    suppliedBy: {
+        name: {
+            type: String,
+            required: [true, "Please provide a supplier name"],
+            trim: true,
+        },
+        id: {
+            type: ObjectId,
+            ref: "Supplier"
         }
     }
-    // quantity: {
-    //     type: Number,
-    //     required: true,
-    //     min: [0, "Quantity can't be negative"],
-    //     validate: {
-    //         validator: (value) => {
-    //             const isInteger = Number.isInteger(value)
-    //             if (isInteger) {
-    //                 return true
-    //             } else {
-    //                 return false
-    //             }
-    //         }
-    //     },
-    //     message: "Quantity must  be an integer"
-    // },
-    // status: {
-    //     type: String,
-    //     required: true,
-    //     enum: {
-    //         values: ["in-stock", "out-of-stock", "Discontinuted"],
-    //         message: "User can't be {VALUE}"
-    //     }
-    // },
 
-    // createdAt: {
-    //   type: Date,
-    //   default: Date.now
-    // },
-    // updatedAt: {
-    //   type: Date,
-    //   default: Date.now
-    // },
-    // supplier: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "Supplier"
-    // },
-    // categories: [{
-    //   name: {
-    //     type: String,
-    //     required: true,
-    //   },
-    //   _id: mongoose.Schema.Types.ObjectId
-    // }]
 }, {
     timestamps: true
 })
@@ -120,13 +127,6 @@ productSchema.pre('save', function (next) {
 })
 
 
-// productSchema.post('save', function (doc, next) {
-//     console.log('after saving data')
+const Stock = mongoose.model('Stock', stockSchema)
 
-//     next()
-// })
-
-
-const Product = mongoose.model('Product', productSchema)
-
-module.exports = Product;
+module.exports = Stock;
