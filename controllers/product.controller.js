@@ -16,13 +16,39 @@ module.exports.getProducts = async (req, res, next) => {
 
         // const product = await Product.findById('633a98c76c231504cc092379')
 
-        const products = await getProductService()
+        // --------------------------------------------------------------------------------------------------------------------------
 
+        // query
+        const filters = { ...req.query }
+
+        // Sort , Page, Limit ==> exclude
+        const excludeField = ['sort', 'page', 'limit',]
+        excludeField.forEach(field => delete filters[field])
+
+        // console.log('orginal object', req.query)
+        // console.log('queryObject', filters)
+
+        const queries = {}
+
+        if (req.query.sort) {
+            const sortBy = req.query.sort.split(',').join(' ')
+            queries.sortBy = sortBy
+            console.log(sortBy)
+        }
+
+        if (req.query.fields) {
+            const fields = req.query.fields.split(',').join(' ')
+            queries.fields = fields
+            console.log(fields)
+        }
+
+        const products = await getProductService(filters, queries)
         res.status(200).json({
             status: "Success",
             message: "Data find Successfully",
             data: products
         })
+
     } catch (error) {
         res.status(400).json({
             status: "Fail",
