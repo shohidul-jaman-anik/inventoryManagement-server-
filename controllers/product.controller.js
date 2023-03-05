@@ -60,14 +60,6 @@ module.exports.getProducts = async (req, res, next) => {
 
 module.exports.addProduct = async (req, res, next) => {
     try {
-
-        // const product = new Product(req.body)
-        // console.log(product, 'hellooooo')
-        // if (product.quantity == 0) {
-        //     product.status = 'out-of-stock'
-        // }
-        // const result = await product.save()
-
         const result = await addProductService(req.body)
 
         res.status(200).json({

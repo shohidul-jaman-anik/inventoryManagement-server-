@@ -57,54 +57,46 @@ const productSchema = mongoose.Schema({
         },
         id: {
             type: ObjectId,
-            ref:"Brand",
-            required:true,
+            ref: "Brand",
+            required: true,
         }
-    }
-    // quantity: {
-    //     type: Number,
-    //     required: true,
-    //     min: [0, "Quantity can't be negative"],
-    //     validate: {
-    //         validator: (value) => {
-    //             const isInteger = Number.isInteger(value)
-    //             if (isInteger) {
-    //                 return true
-    //             } else {
-    //                 return false
-    //             }
-    //         }
-    //     },
-    //     message: "Quantity must  be an integer"
-    // },
-    // status: {
-    //     type: String,
-    //     required: true,
-    //     enum: {
-    //         values: ["in-stock", "out-of-stock", "Discontinuted"],
-    //         message: "User can't be {VALUE}"
-    //     }
-    // },
+    },
+    quantity: {
+        type: Number,
+        required: true,
+        min: [0, "Quantity can't be negative"],
+        validate: {
+            validator: (value) => {
+                const isInteger = Number.isInteger(value)
+                if (isInteger) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+        },
+        message: "Quantity must  be an integer"
+    },
+    status: {
+        type: String,
+        required: true,
+        enum: {
+            values: ["in-stock", "out-of-stock", "Discontinuted"],
+            message: "User can't be {VALUE}"
+        }
+    },
+    supplier: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Supplier"
+    },
+    categories: [{
+        name: {
+            type: String,
+            required: true,
+        },
+        _id: mongoose.Schema.Types.ObjectId
+    }]
 
-    // createdAt: {
-    //   type: Date,
-    //   default: Date.now
-    // },
-    // updatedAt: {
-    //   type: Date,
-    //   default: Date.now
-    // },
-    // supplier: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "Supplier"
-    // },
-    // categories: [{
-    //   name: {
-    //     type: String,
-    //     required: true,
-    //   },
-    //   _id: mongoose.Schema.Types.ObjectId
-    // }]
 }, {
     timestamps: true
 })
@@ -115,16 +107,22 @@ productSchema.pre('save', function (next) {
     if (this.quantity == 0) {
         this.status = 'out-of-stock'
     }
-
     next()
 })
 
 
 // productSchema.post('save', function (doc, next) {
 //     console.log('after saving data')
-
 //     next()
 // })
+
+
+// Our build in instance method
+// productSchema.methods = {
+//     findUnitByKg: function () {
+//         return Product.find({ unit: 'kg' })
+//     }
+// }
 
 
 const Product = mongoose.model('Product', productSchema)

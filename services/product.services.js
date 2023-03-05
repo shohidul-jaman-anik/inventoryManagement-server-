@@ -4,9 +4,20 @@ const Product = require('../model/Product')
 exports.getProductService = async (filters, queries) => {
     const products = await Product.find({}).select(queries.fields).sort(queries.sortBy)
     return products;
+
+    // Our build in instance  method
+    // const data = new Product()
+    // const products = await data.findUnitByKg()
+    // return products;
 }
 
 exports.addProductService = async (data) => {
+    // const product = new Product(req.body)
+    // if (product.quantity == 0) {
+    //     product.status = 'out-of-stock'
+    // }
+    // const result = await product.save()
+
     const product = await Product.create(data)
     return product;
 }

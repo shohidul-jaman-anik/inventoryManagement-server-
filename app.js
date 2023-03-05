@@ -9,7 +9,7 @@ app.use(cors());
 // Route
 const productRoute = require('./routes/product.route')
 const brandRoute=require('./routes/brand.route')
-const storeRoute=require('./routes/store.route')
+// const storeRoute=require('./routes/store.route')
 
 
 app.use('/api/v1/products', productRoute)
@@ -22,4 +22,3 @@ app.get("/", (req, res) => {
 });
 
 module.exports = app;
-
