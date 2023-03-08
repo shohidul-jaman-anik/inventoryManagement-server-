@@ -2,7 +2,10 @@ const Product = require('../model/Product')
 
 
 exports.getProductService = async (filters, queries) => {
-    const products = await Product.find({}).select(queries.fields).sort(queries.sortBy)
+    console.log(filters)
+    const products = await Product.find({filters})
+        .select(queries.fields)
+        .sort(queries.sortBy)
     return products;
 
     // Our build in instance  method
@@ -10,6 +13,8 @@ exports.getProductService = async (filters, queries) => {
     // const products = await data.findUnitByKg()
     // return products;
 }
+
+
 
 exports.addProductService = async (data) => {
     // const product = new Product(req.body)
@@ -33,14 +38,14 @@ exports.updateProductService = async (productId, data) => {
 }
 
 exports.bulkUpdateProductService = async (data) => {
-    console.log(data.ids, 'ids')
-    const result = await Product.updateMany({ _id: data.ids }, { $set: data.data }, { runValidators: true })
+    // console.log(data.ids, 'ids')
+    // const result = await Product.updateMany({ _id: data.ids }, { $set: data.data }, { runValidators: true })
 
-    // const products = [];
-    // data.ids.forEach(product => {
-    //     products.push(product.updateOne({ _id: product.id }, product.data))
-    // })
-    // const result = await Promise.all(products)
+    const products = [];
+    data.ids.forEach(product => {
+        products.push(Product.updateOne({ _id: product.id }, { $set: product.data }))
+    })
+    const result = await Promise.all(products)
 
     console.log(result)
     return result;

@@ -19,7 +19,7 @@ module.exports.getProducts = async (req, res, next) => {
         // --------------------------------------------------------------------------------------------------------------------------
 
         // query
-        const filters = { ...req.query }
+        let filters = { ...req.query }
 
         // Sort , Page, Limit ==> exclude
         const excludeField = ['sort', 'page', 'limit',]
@@ -27,6 +27,12 @@ module.exports.getProducts = async (req, res, next) => {
 
         // console.log('orginal object', req.query)
         // console.log('queryObject', filters)
+
+        let filterstring = JSON.stringify(filters)
+        filterstring = filterstring.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`)
+
+        filters=JSON.parse(filterstring)
+
 
         const queries = {}
 
@@ -57,6 +63,13 @@ module.exports.getProducts = async (req, res, next) => {
         })
     }
 }
+
+
+
+
+
+
+
 
 module.exports.addProduct = async (req, res, next) => {
     try {
