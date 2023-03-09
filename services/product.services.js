@@ -68,7 +68,7 @@ exports.deleteProductService = async (id) => {
 
 exports.bulkDeleteProductService = async (ids) => {
     console.log(data.ids, 'ids')
-    const result = await Product.deleteMany({})
+    const result = await Product.deleteMany({ids})
 
     console.log(result)
     return result;

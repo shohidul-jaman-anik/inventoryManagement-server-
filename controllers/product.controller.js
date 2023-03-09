@@ -157,7 +157,8 @@ exports.deleteProduct = async (req, res) => {
 
 exports.bulkDeleteProduct = async (req, res) => {
     try {
-        const result = await bulkDeleteProductService(req.body.ids)
+        // const result = await bulkDeleteProductService(req.body.ids)
+        const result = await Product.deleteMany({ids})
 
         res.status(200).json({
             status: "Success",
@@ -173,3 +174,13 @@ exports.bulkDeleteProduct = async (req, res) => {
         console.log(error, 'error')
     }
 }
+
+
+exports.fileUpload=async(req,res)=>{
+    try {
+        res.status(200).json(req.files)
+    } catch (error) {
+        
+    }
+}
+
