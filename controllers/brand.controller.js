@@ -1,7 +1,8 @@
 const {
     createBrandService,
     getBrandService,
-    updateBrandService
+    updateBrandService,
+    getBrandByIdService
 } = require("../services/brand.service")
 
 module.exports.createBrand = async (req, res, next) => {
@@ -41,12 +42,12 @@ module.exports.getBrands = async (req, res, next) => {
 module.exports.getBrandById = async (req, res, next) => {
     const { id } = req.params
     try {
-        const brand = await getBrandService(id)
+        const brand = await getBrandByIdService(id)
 
         if (!brand) {
             res.status(400).json({
                 status: "Fail",
-                message: "Couldn't get the brand"
+                message: "Couldn't get the brand with this id"
             })
         }
         res.status(200).json({

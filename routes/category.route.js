@@ -7,3 +7,4 @@ router.route('/')
     .get(categoryController.getCategory)
     .post(categoryController.addCategory)
 
+module.exports=router;

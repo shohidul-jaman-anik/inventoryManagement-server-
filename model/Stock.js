@@ -6,6 +6,7 @@ const { ObjectId } = mongoose.Schema.Types;
 const stockSchema = mongoose.Schema({
     productId: {
         type: ObjectId,
+        required:true,
         ref: "Product"
     },
     name: {
@@ -117,7 +118,7 @@ const stockSchema = mongoose.Schema({
 })
 
 // mongoose middleware for saving data
-productSchema.pre('save', function (next) {
+stockSchema.pre('save', function (next) {
 
     if (this.quantity == 0) {
         this.status = 'out-of-stock'

@@ -17,14 +17,13 @@ const brandSchema = mongoose.Schema({
         type: String,
         lowercase: true,
         validate: [validator.isEmail, "Please provide a valid email"]
-      },
-      website: {
+    },
+    website: {
         type: String,
         validate: [validator.isURL, "Please provide a valid url"]
-      },
+    },
     location: String,
     products: [{
-        // type: mongoose.Types.ObjectId,
         type: ObjectId,
         ref: "Product"
     }],

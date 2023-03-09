@@ -1,9 +1,7 @@
 // get ,post,getByIds
 const express = require("express")
-const mongoose = require("mongoose")
-const storeRoute = require("../controllers/store.controller")
-
 const router = express.Router()
+const storeRoute = require("../controllers/store.controller")
 
 
 router.route('/')
@@ -14,4 +12,4 @@ router.route('/:id')
     .get(storeRoute.getStoreById)
 
 
-
+module.exports = router;

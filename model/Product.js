@@ -37,7 +37,7 @@ const productSchema = mongoose.Schema({
                 }
                 let isValid = true;
                 values.forEach(url => {
-                    if (validator.isURL(url)) {
+                    if (!validator.isURL(url)) {
                         isValid = false;
                     }
                 })
@@ -50,17 +50,17 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    // brand: {
-    //     name: {
-    //         type: String,
-    //         required: true,
-    //     },
-    //     id: {
-    //         type: ObjectId,
-    //         ref: "Brand",
-    //         required: true,
-    //     }
-    // },
+    brand: {
+        name: {
+            type: String,
+            required: true,
+        },
+        id: {
+            type: ObjectId,
+            ref: "Brand",
+            required: true,
+        }
+    },
     quantity: {
         type: Number,
         required: true,
@@ -123,6 +123,8 @@ productSchema.pre('save', function (next) {
 //         return Product.find({ unit: 'kg' })
 //     }
 // }
+
+
 
 
 const Product = mongoose.model('Product', productSchema)
