@@ -44,7 +44,7 @@ const brandSchema = mongoose.Schema({
     tymestamps: true
 })
 
-const brand = mongoose.model('Brand', brandSchema)
+const Brand = mongoose.model('Brand', brandSchema)
 
-module.exports = brand;
+module.exports = Brand;
 

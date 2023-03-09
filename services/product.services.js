@@ -1,11 +1,13 @@
 const Product = require('../model/Product')
+const Brand = require('../model/Brand')
 
 
 exports.getProductService = async (filters, queries) => {
     console.log(filters)
-    const products = await Product.find({filters})
-        .select(queries.fields)
-        .sort(queries.sortBy)
+    // const products = await Product.find({ filters })
+    //     .select(queries.fields)
+    //     .sort(queries.sortBy)
+    const products = await Product.find()
     return products;
 
     // Our build in instance  method
@@ -24,6 +26,13 @@ exports.addProductService = async (data) => {
     // const result = await product.save()
 
     const product = await Product.create(data)
+    const { _id: productId, brand } = product;
+
+    const res = await Brand.updateOne(
+        { _id: brand.id },
+        { $push: { products: productId } }
+    )
+    console.log(res.nModified)
     return product;
 }
 
