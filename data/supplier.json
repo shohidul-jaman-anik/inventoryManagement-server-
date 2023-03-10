@@ -1,0 +1,17 @@
+{
+  "name": "Rashed Hossain",
+  "email": "rashed@gmail.com",
+  "brand": {
+    "name": "Fresh",
+    "id": "6345c2677aa2230abc53c290"
+  },
+  "contactNumber": "017522521",
+  "emergenceyContactNumber": "01933555252",
+  "tradeLicenceNumbr": 111132222,
+  "presentAddress": "Hasanbad,Keranigonj",
+  "permanentAddress": "Barishal",
+  "location": "Dhaka",
+  "imageURL": "https://ibb.co/BwhbzSy",
+  "nationalIdImageURL": "https://ibb.co/BwhbzSy",
+  "status": "active"
+}
