@@ -1,12 +1,13 @@
 const mongoose = require("mongoose")
 const { ObjectId } = mongoose.Schema.Types;
+const validator = require("validator")
 
 
-// Schema Design
+
 const stockSchema = mongoose.Schema({
     productId: {
         type: ObjectId,
-        required:true,
+        required: true,
         ref: "Product"
     },
     name: {
@@ -14,7 +15,6 @@ const stockSchema = mongoose.Schema({
         required: [true, "Please provide a name for this product"],
         trim: true,
         lowercase: true,
-        unique: [true, "Name must be unique"],
         minLength: [3, "Name must be at list 3 characters"],
         maxLength: [100, "Name is too learge"]
     },
@@ -35,21 +35,22 @@ const stockSchema = mongoose.Schema({
     imageUrls: [{
         type: String,
         required: true,
-        validate: {
-            validator: (values) => {
-                if (!Array.isArray(values)) {
-                    return false;
-                }
-                let isValid = true;
-                values.forEach(url => {
-                    if (validator.isURL(url)) {
-                        isValid = false;
-                    }
-                })
-                return isValid;
-            },
-            message: "Please provide a valid message"
-        }
+        // validate: {
+        //     validator: (values) => {
+        //         if (!Array.isArray(values)) {
+        //             return false;
+        //         }
+        //         let isValid = true;
+        //         values.forEach(url => {
+        //             if (validator.isURL(url)) {
+        //                 isValid = false;
+        //             }
+        //         })
+        //         return isValid;
+        //     },
+        //     message: "Please provide a valid message"
+        // }
+        validate: [validator.isURL, "Please provide a valid url"]
     }],
     price: {
         type: Number,
@@ -111,6 +112,11 @@ const stockSchema = mongoose.Schema({
             type: ObjectId,
             ref: "Supplier"
         }
+    },
+    sellCount: {
+        type: Number,
+        min: 0,
+        default: 0
     }
 
 }, {
